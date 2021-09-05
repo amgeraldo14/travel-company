@@ -19,11 +19,11 @@ const App = () => {
   }, [])
 
   useEffect( async () => {
-    console.log(coordinates, 'ini coordinates')
-    console.log(bounds, 'ini bounds')
-    const data = await getPlacesData()
-    console.log(data, 'ini data')
-    setPlaces(data)
+    if(bounds) {
+      const data = await getPlacesData(bounds.sw, bounds.ne)
+      setPlaces(data)
+      console.log(data)
+    }
   }, [coordinates, bounds])
   
   return (
@@ -32,10 +32,10 @@ const App = () => {
       <Header/>
       <Grid container spacing={3} style={{ width: '100%' }}>
         <Grid item xs={12} md={4}>
-          <List/>
+          <List places={places}/>
         </Grid>
         <Grid item xs={12} md={8}>
-          <Map setCoordinates={setCoordinates} setBounds={setBounds} coordinates={coordinates}/>
+          <Map setCoordinates={setCoordinates} setBounds={setBounds} coordinates={coordinates} places={places}/>
         </Grid>
       </Grid>
     </>
